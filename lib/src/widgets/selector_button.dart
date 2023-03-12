@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/src/models/country_model.dart';
 import 'package:intl_phone_number_input/src/utils/selector_config.dart';
@@ -41,6 +44,10 @@ class SelectorButton extends StatelessWidget {
             ? DropdownButtonHideUnderline(
                 child: DropdownButton<Country>(
                   key: Key(TestHelper.DropdownButtonKeyValue),
+                  icon: Visibility(
+                    visible: false,
+                    child: Icon(Icons.arrow_drop_down),
+                  ),
                   hint: Item(
                     country: country,
                     showFlag: selectorConfig.showFlags,
@@ -48,6 +55,8 @@ class SelectorButton extends StatelessWidget {
                     leadingPadding: selectorConfig.leadingPadding,
                     trailingSpace: selectorConfig.trailingSpace,
                     textStyle: selectorTextStyle,
+                    decoration: selectorConfig.decoration,
+                    padding: selectorConfig.padding,
                   ),
                   value: country,
                   items: mapCountryToDropdownItem(countries),
@@ -61,6 +70,8 @@ class SelectorButton extends StatelessWidget {
                 leadingPadding: selectorConfig.leadingPadding,
                 trailingSpace: selectorConfig.trailingSpace,
                 textStyle: selectorTextStyle,
+                decoration: selectorConfig.decoration,
+                padding: selectorConfig.padding,
               )
         : MaterialButton(
             key: Key(TestHelper.DropdownButtonKeyValue),
@@ -88,10 +99,12 @@ class SelectorButton extends StatelessWidget {
               child: Item(
                 country: country,
                 showFlag: selectorConfig.showFlags,
+                trailingSpace: selectorConfig.trailingSpace,
                 useEmoji: selectorConfig.useEmoji,
                 leadingPadding: selectorConfig.leadingPadding,
-                trailingSpace: selectorConfig.trailingSpace,
                 textStyle: selectorTextStyle,
+                decoration: selectorConfig.decoration,
+                padding: selectorConfig.padding,
               ),
             ),
           );
@@ -123,6 +136,10 @@ class SelectorButton extends StatelessWidget {
       context: inheritedContext,
       barrierDismissible: true,
       builder: (BuildContext context) => AlertDialog(
+        contentPadding: EdgeInsets.all(8),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
         content: Directionality(
           textDirection: Directionality.of(inheritedContext),
           child: Container(
@@ -150,8 +167,11 @@ class SelectorButton extends StatelessWidget {
       isScrollControlled: isScrollControlled,
       backgroundColor: Colors.transparent,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(12), topRight: Radius.circular(12))),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+        ),
+      ),
       builder: (BuildContext context) {
         return Stack(children: [
           GestureDetector(
@@ -159,7 +179,8 @@ class SelectorButton extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
             child: DraggableScrollableSheet(
               builder: (BuildContext context, ScrollController controller) {
                 return Directionality(
